@@ -107,7 +107,7 @@
 
 2. 遇到`Unsupported operation: Platform._operatingSystem`异常，则是在未现判断`kIsWeb`的情况下，使用了`Platform`
 
-   ![MissingPluginException](https://raw.githubusercontent.com/chan132/summary/main/images/flutter/img_aws_3.png)
+   ![Platform._operatingSystem](https://raw.githubusercontent.com/chan132/summary/main/images/flutter/img_aws_3.png)
 
    * 解决方案
      * 定位出现异常的位置，遇到该异常通常会在下方提示具体在项目何处调用
@@ -115,7 +115,7 @@
 
 3. 遇到网络请求`XMLHttpRequest error.`异常，通常是出现了CORS跨域问题
 
-   ![MissingPluginException](https://raw.githubusercontent.com/chan132/summary/main/images/flutter/img_aws_4.png)
+   ![XMLHttpRequest error](https://raw.githubusercontent.com/chan132/summary/main/images/flutter/img_aws_4.png)
 
    * 解决方案
 
