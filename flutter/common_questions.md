@@ -54,24 +54,90 @@
    
 3. 解决方案：
 
-  * 导航栏：
+   * 导航栏：
 
-    * 在BottomNavigationBarItem中使用title替换label【但title已经不推荐使用了】
+     * 在BottomNavigationBarItem中使用title替换label【但title已经不推荐使用了】
 
-    * 在Flutter 2.0版本之后，BottomNavigationBarItem将tooltip作为参数暴露出来，所以无需做任何更改
+     * 在Flutter 2.0版本之后，BottomNavigationBarItem将tooltip作为参数暴露出来，所以无需做任何更改
 
-      ![Flutter 2.0 _BottomNavigationTile.build()](https://raw.githubusercontent.com/chan132/summary/main/images/flutter/img_cq_2.png)
-    
-* 返回按钮：给AppBar添加leading自定义返回按钮
+       ![Flutter 2.0 _BottomNavigationTile.build()](https://raw.githubusercontent.com/chan132/summary/main/images/flutter/img_cq_2.png)
+
+   * 返回按钮：给AppBar添加leading自定义返回按钮
 
 
 
 ### 在MaterialApp组件中使用Cupertino相关组件
 
 * Flutter版本：`1.22.2`
-
 * 在MaterialApp组件中使用了Cupertino相关组件, 则需要在其外层嵌套Localizations组件【如: 使用CupertinoTabBar替换BottomNavigationBar时】
 * 详见：[CupertinoTabBar requires Localizations parent](https://flutter.cn/docs/release/breaking-changes/cupertino-tab-bar-localizations)
+
+
+
+### 不展示Android上ScrollView的水波纹效果
+
+1. 项目背景
+
+   * Flutter版本：`1.22.2`
+   * 问题点：在Android设备上，项目中的ListView滚动到底部或顶部时出现水波纹
+
+2. 参考组件
+
+   * `ScrollConfiguration` 是Android上提供的默认scroll behavior
+   * `BouncingScrollPhysics`是类似iOS上的弹一弹效果
+   * `GlowingOverscrollIndicator`, `ScrollConfiguration`提供水波纹效果，这种效果通常只在Android上才有。使用`MaterialApp`时，`GlowingOverscrollIndicator`的水波纹颜色可以通过`ThemeData.accentColor`进行指定.
+
+3. 解决方案
+
+   * 使用`ScrollConfiguration`搭配`自定义ScrollBehavior`，可去掉水波纹
+
+   * 为什么需要自定义
+
+     * 经过测试将`ThemeData.accentColor`设置为`Colors.transparent`时，并不能完全透明
+     * 查看`GlowingOverscrollIndicator`的使用位置，发现了`ScrollConfiguration`。 在`ScrollBehavior`中`iOS, linux, macOS, windows`都是直接返回的child，而`android, fuchsia`直接使用了`GlowingOverscrollIndicator`
+     * 查看`GlowingOverscrollIndicator`的构造方法，控制水波纹效果是由`showLeading`和`showTrailing`进行控制的，而这两个值默认是true。所以为了控制水波纹效果，自定义了`OverScrollBehavior`
+
+   * 自定义ScrollBehavior
+
+     ``` dart
+     class OverScrollBehavior extends ScrollBehavior {
+       @override
+       Widget buildViewportChrome(
+           BuildContext context, Widget child, AxisDirection axisDirection) {
+         // When modifying this function, consider modifying the implementation in
+         // the base class as well.
+         switch (getPlatform(context)) {
+           case TargetPlatform.iOS:
+           case TargetPlatform.linux:
+           case TargetPlatform.macOS:
+           case TargetPlatform.windows:
+             return child;
+           case TargetPlatform.android:
+           case TargetPlatform.fuchsia:
+             return GlowingOverscrollIndicator(
+               child: child,
+               // 不显示头部水波纹
+               showLeading: false,
+               // 不显示尾部水波纹
+               showTrailing: false,
+               axisDirection: axisDirection,
+               color: Theme.of(context).accentColor,
+             );
+         }
+       }
+     }
+     ```
+
+   * 使用方法如下
+
+     ``` dart
+     ScrollConfiguration(
+       behavior: OverScrollBehavior(),
+       child: ListView() / GridView() / CustomScrollView() / BoxScrollView(),
+     )
+     ```
+
+
 
 
 
