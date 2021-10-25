@@ -15,7 +15,7 @@
 ### Android 相关
 
 * Android系统启动流程：[Android system startup process](https://github.com/chan132/summary/blob/main/android/system_startup_process.md)
-* App启动流程：[Flutter application startup process](https://github.com/chan132/summary/blob/main/flutter/app_startup_process.md)
+* App启动流程：[Flutter application startup process](https://github.com/chan132/summary/blob/main/android/app_startup_process.md)
 
 
 
