@@ -9,6 +9,7 @@
 * 向已有的项目添加Web支持：[Add web support to an existing project](https://github.com/chan132/summary/blob/main/flutter/add_web_support.md)
 * 项目开发中遇到的相关问题：[Common questions about flutter development](https://github.com/chan132/summary/blob/main/flutter/common_questions.md)
 * 开发一个package并上传：[Developing Flutter packages](https://github.com/chan132/summary/blob/main/flutter/developing_package.md)
+* GetX框架的使用方式和应用场景：[GetX Learning](https://github.com/chan132/summary/blob/main/flutter/getx_learning.md)
 
 
 
