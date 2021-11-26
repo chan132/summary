@@ -4,7 +4,7 @@
 
 #### 说明
 
-* 流程图由我个人结合网上相关文章、flutter源码自行总结得出，仅代表我个人理解，仅供参考。
+* 文中相关时序图由我个人结合`GetX`源码自行总结得出，仅代表我个人理解，仅供参考。
 * 如需转载请注明出处，如有疑问可随时提issue
 * 本文章基于`get: ^4.3.8`
 * GitHub：[GetX](https://github.com/jonataslaw/getx)
@@ -102,7 +102,7 @@ final customClass = CustomClass().obs;
 >     int age;
 >     User({this.name = '', this.age = 0});
 >   }
->     
+>       
 >   // Controller
 >   class Controller extends GetxController {
 >     var names = <User>[].obs;
@@ -112,7 +112,7 @@ final customClass = CustomClass().obs;
 >       names.addAll([User(name: 'name1', age: 18), User(name: 'name2', age: 20)]);
 >     }
 >   }
->     
+>       
 >   // 在页面中更新item中的字段时
 >   controller.names[1].age = 30;
 >   controller.names.refresh();
