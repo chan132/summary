@@ -10,6 +10,7 @@
 * 项目开发中遇到的相关问题：[Common questions about flutter development](https://github.com/chan132/summary/blob/main/flutter/common_questions.md)
 * 开发一个package并上传：[Developing Flutter packages](https://github.com/chan132/summary/blob/main/flutter/developing_package.md)
 * GetX框架的使用方式和应用场景：[GetX Learning](https://github.com/chan132/summary/blob/main/flutter/getx_learning.md)
+* fish_redux框架的使用和应用场景：[fish_redux Learning](https://github.com/chan132/summary/blob/main/flutter/fish_redux_learning.md)
 
 
 
