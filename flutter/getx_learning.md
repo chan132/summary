@@ -102,7 +102,7 @@ final customClass = CustomClass().obs;
 >     int age;
 >     User({this.name = '', this.age = 0});
 >   }
->       
+>           
 >   // Controller
 >   class Controller extends GetxController {
 >     var names = <User>[].obs;
@@ -112,7 +112,7 @@ final customClass = CustomClass().obs;
 >       names.addAll([User(name: 'name1', age: 18), User(name: 'name2', age: 20)]);
 >     }
 >   }
->       
+>           
 >   // 在页面中更新item中的字段时
 >   controller.names[1].age = 30;
 >   controller.names.refresh();
@@ -482,6 +482,8 @@ mixin ListNotifierMixin on ListenableMixin {
 ```
 
 ##### GetX/Obx刷新机制
+
+![Obx刷新状态流转图](https://raw.githubusercontent.com/chan132/summary/main/images/flutter/img_gl_7.png)
 
 ![Obx刷新时序图](https://raw.githubusercontent.com/chan132/summary/main/images/flutter/img_gl_2.png)
 
@@ -890,6 +892,29 @@ MaterialApp(
 ##### BottomSheet
 
 调用方式：`Get.bottomSheet(BottomSheetWidget()）`
+
+> 注意：在BottomSheet上跳转页面A，然后页面A跳转页面B，从页面B通过popUtil回到BottomSheet时，这个时候GetX框架中的currentRoute还是页面A，原因可以查看以下源码。这是GetX框架的一个Bug，详见[issue-1870](https://github.com/jonataslaw/getx/issues/1870)。
+>
+> ```dart
+> @override
+> void didPop(Route route, Route? previousRoute) {
+>   // ... 此处省略相关逻辑代码
+> 
+>   // Here we use a 'inverse didPush set', meaning that we use
+>   // previous route instead of 'route' because this is
+>   // a 'inverse push'
+>   _routeSend?.update((value) {
+>     // Only PageRoute is allowed to change current value
+>     if (previousRoute is PageRoute) {
+>       value.current = _extractRouteName(previousRoute) ?? '';
+>     }
+> 
+>     // ... 此处省略相关逻辑代码
+>   });
+> 
+>   // ... 此处省略相关逻辑代码
+> }
+> ```
 
 ##### 关闭弹窗小组件
 
